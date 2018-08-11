@@ -164,17 +164,59 @@ attribute-name-1, attribute-name-2
 
 One class is much more prevalent than the others. 
 
-**Solution: **Assign different costs to different types of misclassification
+**Solution: ** Assign different costs to different types of misclassification
 
 ### 不平衡数据
 
 一个类的数据明显比其他类更加流行。
 
-**解决方案：**为未分类的不同类型赋予不同的权值。
+**解决方案：** 为未分类的不同类型赋予不同的权值。
 
 
 
 ## Output
+
+### Decision Table 决策表
+
+The simplest way of representing the output of learning. 最简单的表达学习输出的方式。
+
+
+
+### Linear Models for Regression 线性模型
+
+Output is a sum of all attributes with its weights. 输出是各加权重属性求和。
+
+
+
+### Decision Tree
+
+Divide-and-conquer approach to processing the training data produces a decision tree.
+
+1. Internal nodes in the tree test attributes
+2. Attribute values are compared to constant
+3. Comparing values of two attributes
+4. Using a function of one or more attributes
+5. Leaves assign classification or probability distribution to instances
+6. To make prediction, instance with unknown class label is routed down the tree
+
+### 决策树
+
+使用分治法来训练数据以建立一个决策树。
+
+1. 内部的节点用于树测试属性
+2. 属性值与常数比较？
+3. 比较两个属性值
+4. 使用函数的一个或多个属性？
+5. 为叶节点赋予分类或实例的概率分布
+6. 预测时，有未知类的实例由根节点到叶节点决策
+
+
+
+### Nominal and Numeric Attribute 
+
+
+
+
 
 
 
