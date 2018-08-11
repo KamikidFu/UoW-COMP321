@@ -212,11 +212,188 @@ Divide-and-conquer approach to processing the training data produces a decision 
 
 
 
-### Nominal and Numeric Attribute 
+### Nominal and Numeric Attribute
+* Nominal:
+  1. One branch for every value, number of children is equal to number of attributes. 
+  2. Just test once only
+  3. (Alternative) Division into two subsets of nominal attribute values
+* Numeric:
+  1. Test whether value is greater or less than constant
+  2. Test more than once
+  3. (Alternative) Three-way split
+
+### 名目和数值类属性
+
+* 名目：
+  1. 一个分支对应所有值，子节点的数目与属性数目一致。
+  2. 只测试一遍。
+  3. 另外的方法：分裂到两个名目子集
+* 数值：
+  1. 测试值是否大于或低于一个常量
+  2. 测试多次
+  3. 另外的方法：分裂成三个分支
 
 
 
+### Missing Value
 
+Absence of value have some significance?
+
+* Yes! Missing should be a separate value
+* No! Missing must be treated in a special way
+  * Solution A: Assign instance to most popular branch
+  * Solution B: Split instance into pieces with one piece per branch extending from node
+
+### 缺失值
+
+缺失值很重要吗？
+
+* 是的！缺失值需要是分离的值。
+* 不是！缺失值必须通过一个特殊的方法对待
+  * 方法A：为最流行的分支分配缺失值的实例
+  * 方法B：分裂实例，从节点一个分支衍生一部分缺失值的实例出来
+
+
+
+### Classification Rule
+
+Popular alternative to decision trees.
+
+Antecedent (Pre-condition): A series of tests, logically ANDed together.
+
+Consequent (Conclusion): Class or probability distribution assigned by rule, logically ORed together.
+
+### 分类规则
+
+另一种流行
+
+先例 (先决条件)：一系列的测试，通常以`和`逻辑合并
+
+后果 (结论)：类，或者概率分布，通常以`或`逻辑合并
+
+
+
+### From Trees to Rules
+
+One rule for each leaf.
+
+* Antecedent contains a condition for every node on the path from root to leaf.
+* Consequent is class assigned by the leaf.
+
+Produces rules that are unambiguous. Rules can be unnecessarily complex which need pruning.
+
+### 从树到规则
+
+一个叶节点，一条规则。
+
+* 先例包含了从根到叶的所有节点的条件。
+* 结论是叶节点的类。
+
+生成的规则并不模糊，规则没有必要那么复杂，所以需要修剪。
+
+
+
+### From Rules to Trees
+
+* More difficult than from trees to rules.
+* Symmetry needs to be broken.
+* Corresponding tree contains identical subtrees. `(Replicated Subtree Problem)`
+
+### 从规则到树
+
+* 比起从树到规则更难
+* 对称需要被打破
+* 相应的树包含了相同的子树 `重复子树问题`
+
+
+
+### Nuggets of Knowledge
+
+Question: Are rules independent pieces of knowledge?
+
+Two ways of executing a rule set:
+
+* Ordered set of rules (Decision list): Order is important for interpretation.
+* Unordered set of rules: Rules may overlap and lead to different conclusions for the same instance.
+
+### 知识块
+
+问题：规则是独立的知识片段吗？
+
+两种执行规则集的方式：
+
+* 顺序的规则集：顺序对于解释极为重要。
+* 无序的规则集：规则可能覆盖或者导致对于相同的实例产生不同的结论。
+
+
+
+### Association Rules
+
+* Predict any attribute and combinations of attributes.
+* Not intended to be used together as a set.
+
+Problem: Immense number of possible associations.
+
+Solution: Restrict to show only the most predictive associations with high support and high confidence.
+
+### 关联规则
+
+* 预测任意属性或者属性集合
+* 并不意味着被用作一个集合
+
+问题：可能存在大量的可行关联规则。
+
+解决方案： 限制只输出高支持度和高置信度的预测性关联规则。
+
+
+
+### Support & Confidence
+
+Support: Number of instances predicted correctly.
+
+Confidence: Number of correct predictions, as proportion of all instances that rule applies to.
+
+Normally minimum support and confidence are pre-specified.
+
+### 支持度和置信度
+
+支持度：正确预测的实例个数。
+
+置信度：正确预测的实例的个数，占据总实例的比例。
+
+通常最小支持度和置信度都是预先指定了的。
+
+
+
+### Instance-Based Representation
+
+Lazy learning, AKA Rote Learning
+
+* Training instance are searched for instances which are most closely resemble test instance.
+* The instances themselves represent the knowledge.
+
+Methods: `Nearest-Neighbor`, `K-Nearest-Neighbor`
+
+### 基于实例的表达
+
+懒惰学习，又称死记硬背法学习
+
+* 训练的实例由那些最接近于测试实例的实例构成。
+* 实例本身就表达了知识。
+
+方法：`Nearest-Neighbor`, `K-Nearest-Neighbor`
+
+### 
+
+### Distance Function
+
+* Numeric: Euclidean distance with normalization
+* Nominal: 1 - different, 0 - equal
+
+### 距离函数
+
+* 数值：规范的欧氏距离
+* 名目：1 - 不同， 0 - 相同
 
 
 
