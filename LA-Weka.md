@@ -520,6 +520,118 @@ Missing 被视为单独的属性值
 
 ## Practical Data Mining
 
+
+### Naive statistical modeling
+
+* use all the attributes, not just one, to derive classification
+* Based on describing the probability distribution of the data in each class of instances
+  * Information from different classes can then be combined into classification using Bayes' rule
+* Called “naive” because attributes are assumed to be statistically independent for each class
+* Independence assumption is almost never correct but works surprisingly well in practice
+
+### 简单统计模型
+
+* 使用所有的属性，并不仅仅用一个属性来分来。
+* 基于描述每类实例中数据的概率分布
+  * 然后可以使用bayes rule将来自不同类别的信息组合成分类
+* 被叫做“天真”，因为假设属性在每个类中都具有统计独立性
+* 独立性假设几乎从不正确，但在实践中效果出奇的好
+ 
+### Bayes’ rule
+
+* Probability of event H given evidence E
+  * Pr[H∣E]=Pr[E∣H]Pr[H]/Pr[E]
+
+* A priori probability of H : Pr[H]
+  * Probability of event before evidence has been seen
+
+* A posteriori probability of H : Pr[H∣E]
+  * Probability of event after evidence has been seen 
+
+### bayes 规则
+
+* Pr[H∣E] 概率公式
+* Pr[H] ： H的先验概率
+  * 在看到证据之前发生事件的可能性
+* Pr[H∣E] : H的后验概率
+  * 在看到证据之后发生事件的可能性
+
+### Naive Bayes for classification
+
+* what’s the probability of the class given an instance? 
+  * Evidence E = instance described by attributes E1... En
+  * Event H = class value for instance
+* To apply Bayes' rule, we need to estimate Pr[E|H]
+* Naïve assumption: attributes that are independent when considering a particular class value H
+* Then Pr[E∣H]=Pr[E1∣H]Pr[E2∣H]...Pr[En∣H] and Bayes' rule becomes:
+  Pr[H∣E]=Pr[E1∣H]Pr[E2∣H]...Pr[En∣H]Pr[H]/ Pr[E]
+
+### Naive Bayes 分类
+
+* class given an instance 的概率
+  * 证据E = E1..En 描述的实例
+  * 事件H = 对于instance class的值
+* 要应用贝叶斯规则，我们需要估计Pr [E | H]
+* 天真的假设：在考虑特定的类值H时，这些属性是独立的
+
+### zero-frequency problem
+
+* Probability will be zero Pr[Humidity = High|yes]=0
+* A posteriori probability will also be zero: Pr[yes|E]=0
+* Remedy ： add 1 to the count for every attribute value-
+class combination
+* Result : probabilities will never be zero(also: stabilizes probability estimates)
+
+### 零频率问题
+
+* 概率为0
+* 后验概率也将为零
+* 补救措施：为每个属性值的计数加1
+* 结果：概率永远不会为零（同样：稳定概率估计）
+
+### Missing values
+
+* Training: instance is not included in frequency count for attribute value-class combination
+* Classification: attribute is omitted from calculation
+
+### 丢失数据
+
+*培训：实例不包含在属性值类组合的频率计数中
+*分类：计算中省略属性
+
+### Multinomial naïve Bayes 
+
+* Version of naïve Bayes used for document classification by applying the bag of words model
+* n : number of times word i occurs in bag
+* P : probability of obtaining word i when picking a word at random from documents in class H
+* Probability of observing a particular bag of words E given class H (based on 
+multinomial distribution):Pr[E∣H]≈ (N!/ ∏(i=1,k)ni!) * ∏(i=1,k)pi!
+* The N words in the bag are assumed to have been picked in independent
+trials based on the given probabilities
+
+###多项式幼稚贝叶斯
+
+* 通过应用词袋模型用于文档分类的朴素贝叶斯版本
+* n：单词i出现在包中的次数
+* P：从H类文档中随机选取单词时获得单词i的概率
+* 在给定H级的情况下观察特定词袋E的可能性（基于多项分布）：Pr [E | H]≈（N！/Π（i = 1，k）ni！）*Π（i = 1，k）pi！
+* 假设包中的N个单词是独立挑选的基于给定概率的试验
+
+### discussion
+
+* Naive Bayes works surprisingly well even if independence assumption is clearly violated
+* Why? Because accurate classification doesn’t necessarily require accurate probability estimates
+* However: adding too many redundant attributes will cause problems (e.g., identical attributes)
+
+###讨论
+
+* 即使明显违反了独立性假设，朴素贝叶斯的工作也出奇地好
+* 为什么？ 因为准确的分类不一定需要准确的概率估计
+* 然而：添加太多多余属性会导致问题（例如，相同的属性）
+
+
+
+
 ## Decision Tree Learning
 1. Constructing decision trees
 	* Strategy: top down
