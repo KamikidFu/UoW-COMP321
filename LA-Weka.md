@@ -521,5 +521,137 @@ Missing 被视为单独的属性值
 ## Practical Data Mining
 
 ## Decision Tree Learning
+1. Constructing decision trees
+	* Strategy: top down
+	* Recursive divide-and-conquer fashion
+		- First: select attribute for root node 
+			Create branch for each possible attribute value
+		- Then: split instances into subsets
+			One for each branch extending from the node
+		- Finally: repeat recursively for each branch, using only instances that reach the branch
+	* Stop if all instances have the same class
+	
+	* 策略: 从上到下
+	* 递归各个击破的方式
+		- 首先: 选择一个根的属性，为每个可能的属性创建分支
+		- 然后: 将实例分解为子集，每个分支从节点扩展一个分支
+		- 最后: 只使用到达该分支的实例，对每个分支递归地重复。
+	* 如果所有的实例拥有相同的类则停止。
+2. Criterion for attribute selection
+	* Which is the best attribute?
+		- Want to get the smallest tree possible
+		- Heuristic: choose the attribute that produces the “purest” nodes
+	* Popular criterion: information gain
+		- Information gain increases with the average purity of the subsets
+	* Strategy: choose attribute that gives greatest information gain
+
+	* 那一个是最好的属性?
+		- 想要得到尽可能最小的树
+		- 启发式: 选择可以产生“最纯粹”的节点的属性
+	* 流行的标准: 信息增益值
+		- 信息增益值随着子集的平均纯度而增加
+	* 策略: 选择获得最大信息收益值的属性
+3. Computing information
+	* Can measure information in bits
+	  - Given a probability distribution, the average information required to specify an event is the distribution’s entropy
+	  - Entropy gives the expected information in bits (can involve fractions of bits)
+	* Formula for computing the entropy:
+		entropy(p1,p2,...,pn)= −p1logp1 − p2logp2... −pnlogpn
+
+	* 可以以比特为计量单位的方式测量信息
+		- 用给出的概率分布来计算出来的分布的熵是指定事件所需的平均信息量
+		- 熵给出了以比特为计量单位的信息 (可以包含比特的分数)
+	* 用来计算熵的公式:
+		熵(p1,p2,...,pn)= −p1logp1 − p2logp2... −pnlogpn
+
+	* 例子：Outlook = Sunny :
+			info([2,3])=entropy(2/5, 3/5)=−2/5log(2/5) − 3/5log(3/5) = 0.971bits
+4. Final decision tree
+	* Note: not all leaves need to be pure; sometimes identical instances have different classes
+		 → Splitting stops when data can’t be split any further
+	* May enforce minimum leaf size to avoid overfitting
+	* Can predict class labels or class probabilities (based on relative frequencies of classes at leaf)
+
+	* 注意: 不是所有的节点需要变成“最纯粹的”; 有时相同的实例具有不同的类
+		 → 当数据不能被进一步分割时，分割停止
+	* 可以强制最小叶径以避免过度拟合
+	* 基于类的节点的频率可以预测类的标签和类的概率
+	
+5. Highly-branching attributes
+* Problematic: attributes with a large number of values (extreme case: ID code)
+	* Subsets are more likely to be pure if there is a large number of values
+		- Information gain is biased towards choosing attributes with a large number of values
+		- This may result in overfitting (selection of an attribute that is non-optimal for prediction)
+	* Another problem: fragmentation
+	
+	* 问题:具有大量值的属性(极端情况:ID代码)
+	* 如果有大量的值，子集更可能是纯的
+		- 信息增益倾向于选择具有大量值的属性
+		- 这可能导致过度拟合(选择不适合预测的属性)
+	* 另一个问题:分裂
+
+6. Gain ratio
+	* Gain ratio: a modification of the information gain that attempts to correct its bias
+	* Gain ratio takes number and size of branches into account when choosing an attribute
+		- It corrects the information gain by taking the intrinsic information of a split into account
+	* Intrinsic information: entropy of distribution of instances into branches
+		- i.e., how much info do we need to tell which branch an instance belongs to
+		
+	* 增益比:对信息增益的修正，以纠正其偏差
+	* 在选择属性时，增益比率会考虑到分支的数量和大小
+		- 它通过考虑分割的内在信息来修正信息增益
+	* 内在信息:实例分布到分支的熵
+		- i.e., 我们需要多少信息才能知道一个实例属于哪个分支
+	
+7. Computing the gain ratio
+	* Example: intrinsic information for ID code
+		ratio:info([1,1,...,1])=14×(−1/14×log(1/14))=3.807bits
+	* Worth of attribute is assumed to decrease as intrinsic information gets larger
+	* Definition of gain ratio: gain_ratio(attribute) = gain(attribute) /i ntrinsic_info(attribute)
+	* Example: gain_ratio(ID code) = 0.940bits ／ 3.807bits = 0.246
+	
+	* 例子: 内部信息 for ID code
+		ratio:info([1,1,...,1])=14×(−1/14×log(1/14))=3.807bits
+	* 假设属性值随着内在信息的增大而减小
+	* 获得率的定义: gain_ratio(attribute) = gain(attribute) /i ntrinsic_info(attribute)
+	* 例子: gain_ratio(ID code) = 0.940bits ／ 3.807bits = 0.246
+	
+8. Discussion
+	* Top-down induction of decision trees: ID3 by R. Quinlan
+		- Gain ratio just one modification of this basic algorithm
+		- Advanced version: C4.5 (J4.8 in WEKA)
+	* Chooses best split point on numeric attributes by maximizing information gain (cf. discretization in 1R)
+	* Deals with missing attribute value by splitting instance into pieces and combining predictions for pieces
+	* Includes tree pruning to combat overfitting: subtrees and nodes are pruned if this reduces estimated error
+	* Alternative approach: CART (SimpleCART in WEKA)
+		- Differs in how splits are selected, missing values are dealt with, and errors for pruning are estimated
+		- Error estimation using cross-validation, not based on training data → less likely to overfit, but slower
+		
+	* 决策树的自上而下归纳法: ID3 by R. Quinlan
+		- 增益比只是这个基本算法的一个修改
+		- 高级版本:C4.5 (WEKA中的J4.8): C4.5 (J4.8 in WEKA)
+	* 通过最大化信息增益来选择数值属性的最佳分割点(如1R中的离散化)
+	*通过最大化信息增益来选择数值属性的最佳分割点(如1R中的离散化)
+	*通过将实例分割成块并结合对块的预测来处理丢失的属性值
+	*包括树木修剪，以对抗过度拟合:如果子树和节点被修剪，如果这减少估计误差
+	*替代方法:CART (WEKA中的SimpleCART)
+		-不同的分裂如何被选择，缺失的值被处理，和修剪的错误被估计使用交叉验证,误差估计,不是基于训练数据→overfit较少,但速度较慢
+		
+9. Beyond individual trees
+	* Trees are popular because they can be generated very quickly; also, they can provide insight
+	* But: generally not the best approach when goal is to maximize predictive performance
+		̵ One reason: trees are quite unstable (i.e., small changes in the training data can yield different tree)
+	* Better: using ensemble of trees
+		̵ Idea: generate collection of different trees, let them vote on a classification (or average class probabilities)
+		̵ Example methods: bagging (change input data), randomization (semi-random split selection),
+			boosting (build trees sequentially, focus on mistakes)
+
+	*	树很受欢迎，因为它们可以很快生成;此外，它们还能提供洞察力
+	* 但是:当目标是最大化预测性能时，通常不是最好的方法
+		̵ 原因之一:树很不稳定(即。，对训练数据的小修改可以产生不同的树)
+	* 更好的方法:使用树木的整体效果
+		̵ 想法:生成集合不同的树木,让他们投票表决一个分类(或平均类概率)
+		̵ 示例方法:装袋(改变输入数据),随机化(半随机分割选择),
+	促进(按顺序构建树，关注错误)
 
 ## Mining Association Rules
