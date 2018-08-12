@@ -520,7 +520,6 @@ Missing 被视为单独的属性值
 
 ## Practical Data Mining
 
-
 ### Naive statistical modeling
 
 * use all the attributes, not just one, to derive classification
@@ -767,3 +766,83 @@ trials based on the given probabilities
 	促进(按顺序构建树，关注错误)
 
 ## Mining Association Rules
+Association rule mining is an unsupervised learning task: goal is knowledge discovery 
+关联规则挖掘为非监督，目标为发现knowledge.对比监督learning, 无监督learning是否成功很难评估。
+
+Main criterion for evaluating rule mining algorithms: computational efficiency
+计算效率是挖掘算法的主要标准。
+
+### Goal
+set of association rules that have high support and high confidence
+找到高支持度和高置信度的关联规则集合。
+
+### Possible method for finding association rules
+Use separate-and-conquer rule learning approach 变治法
+Treat every possible combination of attribute values as a separate class, run rule learner repeatedly
+通过变治法，或将每个可能的属性值视为一个相同的类并反复运行。
+
+### Two problems
+1. Computational complexity 
+2. Resulting number of rules (which would have to be pruned on the basis of support and confidence)
+产生两个问题：计算复杂度与产生的规则数量
+替代方案： 直接寻找高支持度的规则
+
+### Frequent item sets
+Support：number of instances correctly covered by association rule 
+The same as the number of instances covered by all tests in the rule (antecedent and consequent!)
+支持度：实例个数由关联规则正确地覆盖
+相同地，实例的个数被所有规则中的测试覆盖掉。(包括先决条件和结果)
+
+### 关联规则中的术语
+Item: one test corresponding to an attribute-value pair  对应于一个属性值的测试
+- Item set: all items occurring in a rule 规则中出现的所有项目
+
+### Goal of rule mining
+All rules that exceed pre-defined support level and pre-defined confidence level
+所有超出预先定义支持度和置信度的规则
+Two-step process that is generally used for this: 
+1. Generate all item sets that satisfy specified minimum support level (so-called frequent item sets) 
+2. From these frequent item sets, generate all rules that satisfy minimum confidence level
+生成所有满足最低支持度的项目集，从这些项目集中在生成所有满足最低自信度的规则。
+
+
+### How can we efficiently find all frequent item sets? 
+### 怎样找到所有的频繁项集
+The number of possible item sets grows exponentially with the number of attributes.
+可能的项目集数目可能随着属性数目的增长呈指数级增长。
+#### Finding one-item sets is easy
+one scan through the data is sufficient to count how often they occur.
+
+Idea: use one-item sets to generate two-item sets, two-item sets to generate three-item sets, … − If (A B) is frequent item set, then (A) and (B) have to be frequent item sets as well! − In general: if X is frequent k-item set, then all (k-1)- item subsets of X are also frequent 
+基本的方法是一个单项项目集生成双项项目集，双项项目集合生成三项项目集 以此类推
+概括的来讲，如果X 是一个N 项频繁集，则 所有的n-1 项项目集都是频繁集
+
+Idea: compute k-item set by merging (k-1)-item sets
+通过合并 n-1 项集来计算n项集
+所有k-1 项必须为频繁项
+
+Confidence = support of full item set divided by support of Antecedent
+置信度 = 对所有项集的支持除以先决条件的支持
+*Support of antecedent can be obtained from hash table that contains all frequent item sets
+*先决条件可以从包含所有频繁项集的哈希表中获得
+
+Brute-force method is (2N-1), where N is the number of items in the frequent item set concerned
+暴力方法是（2N-1），其中N是频繁项目集中的数字
+Better way: building (c + 1)-consequent rules from consequent ones 
+建立一个个c+1的后续规则
+
+Observation: (c + 1)-consequent rule can only hold if all corresponding c-consequent rules also hold
+观察：仅当所有对应的c-后续规则成立时，(c+1)后续规则也就成立了。
+Reason: confidence cannot decrease by moving item set from consequent to antecedent. Algorithm similar to procedure for large item sets.
+理由：置信度不会因将项集从结论向先决条件移动而降低。算法可能生成大量的项集。
+
+### Algorithm for mining item sets and rules is called Apriori
+### 调用挖掘项集和规则的算法 先验
+* Practical issue: number of frequent item sets explodes when minimum support is too low 
+* WEKA implementation generates a certain user specified number of rules
+	* Does this by running the algorithm repeatedly with incrementally reduced min. support values 
+* Confidence is not necessarily the best measure for finding interesting rules − Example: milk occurs in most supermarket transactions, not useful if we can predict this with high confidence − Other measures have been devised (e.g., lift)
+* 支持度低的时候频繁项目集的数量会特别多
+* 不停的运算减少支持度
+* 置信度并没有必要是对于找到有意思的规则的最佳验算。
+
