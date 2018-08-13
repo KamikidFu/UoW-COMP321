@@ -1,6 +1,6 @@
 
 # LA-Weka
-
+Author: Ditto, Yunhao(Kamikid), Yuyang, Zhe, Zixu
 ## Intro
 
 ### Data Mining
